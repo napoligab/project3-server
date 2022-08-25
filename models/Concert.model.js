@@ -18,6 +18,7 @@ const concertSchema = new Schema (
         required: true},
     budget: Number,
     deadline: Date,
+    minTicket: Number,
     usersFunding: [{ type: Schema.Types.ObjectId, ref:'User'}]
     },
     {

@@ -146,12 +146,13 @@ Components:
 ```javascript
  {
    artist: { type: Schema.Types.ObjectId, ref:'Artist'}
-   img: { type: String, required: true },
+   image: { type: String, required: true },
    date: Date,
    city: { type: String, required: true},
    venue: { type: String, required: true},
    budget: Number,
    deadline: Date,
+   minTicket: Number,
    usersFunding: [{ type: Schema.Types.ObjectId, ref:'User'}]
  }
 ```
@@ -173,7 +174,7 @@ Components:
 | GET         | `/api/concerts`     |                              |                | 400          | Show all concerts                                         |
 | GET         | `api/concerts/fund/:concertId` |                         |                |              | Shows a page with a form to fund for a concert
 | POST         | `api/concerts/fund/:concertId` |                       |                |              | add                                    |
-| POST        | `/api/concerts`     | { artist, venue, city, date, budget, users_funding }       | 201            | 400          | Create and save a new concert                             |
+| POST        | `/api/concerts`     | { artist, image, venue, city, date, budget, deadline, minTicket, users_funding }       | 201            | 400          | Create and save a new concert                             |
 | PUT         | `/api/concerts/:id` | { artist, venue, city, date, budget, users_funding}       | 200            | 400          | edit concert                  |
 | DELETE      | `/api/concerts/:id` |              | 201            | 400          | delete concert                                            |
 | GET         | `/api/user-profile/:id`     |                              |                |              | show specific user                                         | |
