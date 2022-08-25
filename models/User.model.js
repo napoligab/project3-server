@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 
-const userSchema = new Schema(
-  { firstName: { 
+const userSchema = new Schema({ 
+  firstName: { 
       type: String, 
       required: true,
       trim: true
@@ -19,10 +19,12 @@ const userSchema = new Schema(
     },
     password: { 
       type: String, 
-      required: true },
+      required: true
+     },
     city: { 
       type: String, 
-      required: true},
+      required: true
+    },
 	  fundedConcerts: [{ type: Schema.Types.ObjectId, ref:'Concert'}],
     creditCard:{ 
       type: Number, 
@@ -32,11 +34,12 @@ const userSchema = new Schema(
     admin: {
       type: Boolean,
       default: false
+    }
   },
-  {
-    timestamps: true,
-  }
-);
+    {
+    timestamps: true
+    }
+ ); 
 
 const User = model("User", userSchema);
 
