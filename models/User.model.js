@@ -26,9 +26,12 @@ const userSchema = new Schema(
 	  fundedConcerts: [{ type: Schema.Types.ObjectId, ref:'Concert'}],
     creditCard:{ 
       type: Number, 
-      required: true},
-      profilePicture: String,
-      admin: Boolean
+      required: true
+    },
+    profilePicture: String,
+    admin: {
+      type: Boolean,
+      default: false
   },
   {
     timestamps: true,
