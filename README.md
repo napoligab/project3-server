@@ -164,19 +164,16 @@ Components:
 
 | HTTP Method | URL                    | Request Body                 | Success status | Error Status | Description                                                  |
 | ----------- | ---------------------- | ---------------------------- | -------------- | ------------ | ------------------------------------------------------------ |
-| GET         | `/auth/profile    `    | Saved session                | 200            | 404          | Check if user is logged in and return profile page           |
 | POST        | `/auth/signup`         | {firstName, lastName, email, password, city, fundedConcerts, creditCard, profilePicture}      | 201            | 404          | Checks if fields not empty (422) and user not exists (409), then create user with encrypted password, and store user in session |
-| GET        | `/auth/user/login`          | {email, password}         | 200            | 401          | Checks if fields not empty (422), if user exists (404), and if password matches (404), then stores user in session |
-| GET        | `/auth/admin/login`          | {email, password}         | 200            | 401          | Checks if fields not empty (422), if user exists (404), and if password matches (404), then stores user in session |
-| POST        | `/auth/user-login`          | {email, password}         | 200            | 401          | Checks if fields not empty (422), if user exists (404), and if password matches (404), then stores user in session |
-| POST        | `/auth/admin-login`          | {email, password}         | 200            | 401          | Checks if fields not empty (422), if user exists (404), and if password matches (404), then stores user in session |
-| POST        | `/auth/logout`         |                              | 204            | 400          | Logs out the user                                            |
+| GET        | `/auth/login`          | {email, password}         | 200            | 401          | Checks if fields not empty (422), if user exists (404), and if password matches (404), then stores user in session |
+| POST        | `/auth/login`          | {email, password}         | 200            | 401          | Checks if fields not empty (422), if user exists (404), and if password matches (404), then stores user in session |
 | GET         | `/api/concerts`     |                              |                | 400          | Show all concerts                                         |
 | GET         | `api/concerts/fund/:concertId` |                         |                |              | Shows a page with a form to fund for a concert
 | POST         | `api/concerts/fund/:concertId` |                       |                |              | add                                    |
 | POST        | `/api/concerts`     | { artist, image, venue, city, date, budget, deadline, minTicket, users_funding }       | 201            | 400          | Create and save a new concert                             |
 | PUT         | `/api/concerts/:id` | { artist, venue, city, date, budget, users_funding}       | 200            | 400          | edit concert                  |
 | DELETE      | `/api/concerts/:id` |              | 201            | 400          | delete concert                                            |
+| GET         | `/auth/profile    `    | Saved session                | 200            | 404          | Check if user is logged in and return profile page           |
 | GET         | `/api/user-profile/:id`     |                              |                |              | show specific user                                         | |
 | PUT         | `/api/user-profile/edit/:userId`     | {firstName, lastName, email, password, city, fundedConcerts, creditCard, profilePicture}      | 201            | 400          | edit user                                                  |                                            |                                                |
 

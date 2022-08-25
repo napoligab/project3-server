@@ -6,7 +6,7 @@ const concertSchema = new Schema (
     artist: { type: Schema.Types.ObjectId, ref:'Artist'},
     image: { 
         type: String, 
-        required: true 
+       /*  required: true  */
     },
     date: Date,
     city: { 
