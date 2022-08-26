@@ -20,6 +20,7 @@ router.post('/upload', fileUploader.single('imageUrl'), (req, res, next) => {
 });
 
 // Display User profile
+
 router.get('/user/:userId', (req, res, next) => {
   const { userId } = req.params;
   
@@ -33,25 +34,22 @@ router.get('/user/:userId', (req, res, next) => {
 
 router.put('/user/:userId', (req, res, next) => {
   const { userId } = req.params;
-  const { firstName, lastName, email, city, creditCard, profilePicture } = req.body;
+  const { firstName, lastName, email, city, creditCard, profilePicture, admin } = req.body;
    
-  User.findByIdAndUpdate(userId, {  firstName, lastName, email, city, creditCard, profilePicture }, { new: true })
+  User.findByIdAndUpdate(userId, {  firstName, lastName, email, city, creditCard, profilePicture, admin }, { new: true })
     .then((user) => res.status(201).json(user))
     .catch((err) => res.json(err));
 });
 
-// Delete concert
+// Get funded-concerts by Id
 
-router.delete('/user/:userId', (req, res, next) => {
-  const { userId } = req.params;
-
-  User.findByIdAndRemove(userId)
-    .then(() =>
-      res.status(200).json({
-        message: `The user with id ${userId} was successfully deleted`,
-      })
-    )
+router.get('/funded-concerts/', (req, res, next) => {
+  User.find()
+    .populate('fundedConcerts') 
+    .then((concerts) => res.status(200).json(concerts))
     .catch((err) => res.json(err));
 });
+
+
 
 module.exports = router;

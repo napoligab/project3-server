@@ -21,7 +21,8 @@ router.get("/verify", isAuthenticated, (req, res) => {
 });
 
 router.post("/signup", (req, res) => {
-  const { email, password } = req.body;
+  const { firstName,
+    lastName, email, password, city, creditCard } = req.body;
 
   if (!email) {
     return res
@@ -62,14 +63,7 @@ router.post("/signup", (req, res) => {
       .then((salt) => bcrypt.hash(password, salt))
       .then((hashedPassword) => {
         // Create a user and save it in the database
-        return User.create({
-          firstName,
-          lastName,
-          email,
-          password: hashedPassword,
-          city,
-          creditCard
-        });
+        return User.create({firstName, lastName, email, password: hashedPassword, city, creditCard});
       })
       .then((user) => {
         // Bind the user to the session object
