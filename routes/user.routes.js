@@ -43,8 +43,10 @@ router.put('/user/:userId', (req, res, next) => {
 
 // Get funded-concerts by Id
 
-router.get('/funded-concerts/', (req, res, next) => {
-  User.find()
+router.get('/funded-concerts/:userId', (req, res, next) => {
+  const {userId} = req.params;
+
+  User.findById(userId)
     .populate('fundedConcerts') 
     .then((concerts) => res.status(200).json(concerts))
     .catch((err) => res.json(err));
