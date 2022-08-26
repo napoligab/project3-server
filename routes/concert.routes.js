@@ -77,8 +77,7 @@ router.delete('/concerts/:concertId', (req, res, next) => {
     .catch((err) => res.json(err));
 });
 
-
- //Here we need to show a page with a form where the user can add his contribution to an specific concert
+// Show the concert details
 router.get('/concerts/:concertId', (req, res, next) => {
 
   const {concertId} = req.params;
@@ -89,19 +88,7 @@ router.get('/concerts/:concertId', (req, res, next) => {
     .catch((err) => res.json(err));
 });
 
- // Here we need to SEND the database the info with the user contribution to an specific concert
- // How to connect both information: concerts that are being funded by a specific user and users that are funding a specific concert
- // this route also needs to update the budget inside the concert model
-
-/* router.post('/concerts/:concertId', (req, res, next) => {
-  const {concertId} = params;
-  const ticket = req.body;
-
-  Concert.findByIdAndUpdate(concertId)
-    .populate('usersFunding') 
-    .then((concert) => res.status(200).json(concert))
-    .catch((err) => res.json(err));
-}); */
+// Updates a concert with the form on the concerts/:concertId route
 
 router.put("/concerts/:concertId/fund", async (req, res, next) => {
   try {
@@ -129,9 +116,6 @@ router.put("/concerts/:concertId/fund", async (req, res, next) => {
     next(error)
   }
 })
-
-
-
 
 
 module.exports = router;
