@@ -1,4 +1,5 @@
 const fileUploader = require('../config/cloudinary.config');
+const router = require('express').Router();
 
 router.post('/upload', fileUploader.single('imageUrl'), (req, res, next) => {
   // console.log("file is: ", req.file)
@@ -13,3 +14,5 @@ router.post('/upload', fileUploader.single('imageUrl'), (req, res, next) => {
 
   res.json({ fileUrl: req.file.path });
 });
+
+module.exports = router;
