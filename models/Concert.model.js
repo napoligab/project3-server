@@ -3,11 +3,11 @@ const { Schema, model } = require("mongoose");
 
 const concertSchema = new Schema (
     {
-    artist: { type: Schema.Types.ObjectId, ref:'Artist'},
-    image: { 
+    artist: {
         type: String, 
-       /*  required: true  */
+        required: true
     },
+    image: String,
     date: Date,
     city: { 
         type: String, 
