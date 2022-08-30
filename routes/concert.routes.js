@@ -4,7 +4,7 @@ const Concert = require('../models/Concert.model');
 const Artist = require('../models/Artist.model');
 const fileUploader = require('../config/cloudinary.config');
 
- // Cloudinary route
+// Cloudinary route
 
 router.post('/upload', fileUploader.single('imageUrl'), (req, res, next) => {
   // console.log("file is: ", req.file)
@@ -18,9 +18,9 @@ router.post('/upload', fileUploader.single('imageUrl'), (req, res, next) => {
   res.json({ fileUrl: req.file.path });
 });
 
-
 router.post('/concerts', (req, res, next) => {
-  const { artist, venue, city, date, budget, deadline, minTicket, imageUrl } = req.body;
+  const { artist, venue, city, date, budget, deadline, minTicket, imageUrl } =
+    req.body;
 
   Concert.create({
     artist,
@@ -79,43 +79,45 @@ router.delete('/concerts/:concertId', (req, res, next) => {
 
 // Show the concert details
 router.get('/concerts/:concertId', (req, res, next) => {
-
-  const {concertId} = req.params;
+  const { concertId } = req.params;
 
   Concert.findById(concertId)
-    .populate('usersFunding') 
+    .populate('usersFunding')
     .then((concert) => res.status(200).json(concert))
     .catch((err) => res.json(err));
 });
 
 // Updates a concert with the form on the concerts/:concertId route
 
-router.put("/concerts/:concertId/fund", async (req, res, next) => {
+router.put('/concerts/:concertId/fund', async (req, res, next) => {
   try {
-    const {concertId} = req.params;
-    const {qtyTickets, userId} = req.body;
+    const { concertId } = req.params;
+    const { qtyTickets } = req.body;
+    const user = req.payload;
 
-    await User.findByIdAndUpdate(userId, {
+    await User.findByIdAndUpdate(user._id, {
       $push: {
-        fundedConcerts: concertId
-      }
-    })
+        fundedConcerts: concertId,
+      },
+    });
 
-    const concertToUpdate = await Concert.findById(concertId)
+    const concertToUpdate = await Concert.findById(concertId);
 
-   const funded = await Concert.findByIdAndUpdate(concertId, {
-      budget: concertToUpdate.budget - (qtyTickets * concertToUpdate.minTicket),
-      $push: {
-        usersFunding: userId
-      }
-    }, {new: true})
+    const funded = await Concert.findByIdAndUpdate(
+      concertId,
+      {
+        budget: concertToUpdate.budget - qtyTickets * concertToUpdate.minTicket,
+        $push: {
+          usersFunding: user._id,
+        },
+      },
+      { new: true }
+    );
 
     res.status(201).json(funded);
-
   } catch (error) {
-    next(error)
+    next(error);
   }
-})
-
+});
 
 module.exports = router;
