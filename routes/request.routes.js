@@ -12,13 +12,18 @@ const Request = require('../models/Request.model');
   
   // Create request
   
-  router.post('/request', (req, res, next) => {
+  router.post('/request',  (req, res, next) => {
     const user = req.payload;
     const { author, message } = req.body;
+
   
-    Request.create({ author: user, message })
+    Request.create({ author: user._id, message })
       .then((concert) => res.status(201).json(concert))
       .catch((err) => res.json(err));
   });
+
+
+
+
 
   module.exports = router;
