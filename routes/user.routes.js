@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const User = require('../models/User.model');
 const Concert = require('../models/Concert.model');
-const Artist = require('../models/Artist.model');
+const Artist = require('../models/Request.model');
 const fileUploader = require('../config/cloudinary.config');
 
 
