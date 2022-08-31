@@ -52,6 +52,19 @@ router.get('/funded-concerts/:userId', (req, res, next) => {
     .catch((err) => res.json(err));
 });
 
+// Delete user
+
+router.delete('/user/:userId', (req, res, next) => {
+  const { userId } = req.params;
+
+  User.findByIdAndRemove(userId)
+    .then(() =>
+      res.status(200).json({
+        message: `Your profile with id ${userId} was successfully deleted`,
+      })
+    )
+    .catch((err) => res.json(err));
+});
 
 
 module.exports = router;

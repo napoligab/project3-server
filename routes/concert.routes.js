@@ -51,12 +51,12 @@ router.get('/concerts', (req, res, next) => {
 
 router.put('/concerts/:concertId/edit', (req, res, next) => {
   const { concertId } = req.params;
-  const { artist, venue, city, date, budget, deadline, minTicket, imageUrl } =
+  const { artist, venue, city, date, budget, deadline, minTicket, image } =
     req.body;
 
   Concert.findByIdAndUpdate(
     concertId,
-    { artist, venue, city, date, budget, deadline, minTicket, imageUrl },
+    { artist, venue, city, date, budget, deadline, minTicket, image },
     { new: true }
   )
     .then((concert) => res.status(201).json(concert))
@@ -76,6 +76,9 @@ router.delete('/concerts/:concertId', (req, res, next) => {
     )
     .catch((err) => res.json(err));
 });
+
+
+
 
 // Show the concert details
 router.get('/concerts/:concertId', (req, res, next) => {
