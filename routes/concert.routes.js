@@ -18,9 +18,9 @@ router.post('/upload', fileUploader.single('imageUrl'), (req, res, next) => {
   res.json({ fileUrl: req.file.path });
 });
 
-
 router.post('/createconcerts', (req, res, next) => {
-  const { artist, venue, city, date, budget, deadline, minTicket, imageUrl } = req.body;
+  const { artist, venue, city, date, budget, deadline, minTicket, image } =
+    req.body;
 
   Concert.create({
     artist,
@@ -30,7 +30,7 @@ router.post('/createconcerts', (req, res, next) => {
     budget,
     deadline,
     minTicket,
-    imageUrl,
+    image,
     usersFunding: [],
   })
     .then((response) => res.status(201).json(response))
@@ -95,11 +95,15 @@ router.put('/concerts/:concertId/fund', async (req, res, next) => {
     const { qtyTickets } = req.body;
     const user = req.payload;
 
-    await User.findByIdAndUpdate(user._id, {
-      $push: {
-        fundedConcerts: concertId
-      }
-    }, {new: true})
+    await User.findByIdAndUpdate(
+      user._id,
+      {
+        $push: {
+          fundedConcerts: concertId,
+        },
+      },
+      { new: true }
+    );
 
     const concertToUpdate = await Concert.findById(concertId);
 
@@ -118,7 +122,6 @@ router.put('/concerts/:concertId/fund', async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-})
-
+});
 
 module.exports = router;

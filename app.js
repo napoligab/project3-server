@@ -25,10 +25,10 @@ const authRoutes = require('./routes/auth.routes');
 app.use('/auth', authRoutes);
 
 const concertRoutes = require('./routes/concert.routes');
-app.use('/api', concertRoutes);
+app.use('/api', isAuthenticated, concertRoutes);
 
 const userRoutes = require('./routes/user.routes');
-app.use('/api', userRoutes);
+app.use('/api', isAuthenticated, userRoutes);
 
 const cloudinaryRoutes = require('./routes/cloudinary.routes');
 app.use('/api', cloudinaryRoutes);
