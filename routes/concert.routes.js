@@ -47,15 +47,6 @@ router.get('/concerts', (req, res, next) => {
     .catch((err) => res.json(err));
 });
 
-router.post('/concerts', (req, res, next) => {
-  const {artist} = req.body;
-
-  Concert.find()
-    .populate('artist')
-    .then((concerts) => res.status(200).json(concerts))
-    .catch((err) => res.json(err));
-});
-
 // Edit - Put
 
 router.put('/concerts/:concertId/edit', (req, res, next) => {
@@ -104,30 +95,44 @@ router.put('/concerts/:concertId/fund', async (req, res, next) => {
     const { qtyTickets } = req.body;
     const user = req.payload;
 
-    await User.findByIdAndUpdate(
-      user._id,
-      {
-        $push: {
-          fundedConcerts: concertId,
+    const myUser = await User.findById(user._id);
+
+    if (!myUser.fundedConcerts.includes(concertId)) {
+      await User.findByIdAndUpdate(
+        user._id,
+        {
+          $push: {
+            fundedConcerts: concertId,
+          },
         },
-      },
-      { new: true }
-    );
-
-    const concertToUpdate = await Concert.findById(concertId);
-
-    const funded = await Concert.findByIdAndUpdate(
-      concertId,
-      {
-        budget: concertToUpdate.budget - qtyTickets * concertToUpdate.minTicket,
-        $push: {
-          usersFunding: user._id,
+        { new: true }
+      );
+      const concertToUpdate = await Concert.findById(concertId);
+      const funded = await Concert.findByIdAndUpdate(
+        concertId,
+        {
+          budget:
+            concertToUpdate.budget - qtyTickets * concertToUpdate.minTicket,
+          $push: {
+            usersFunding: myUser._id,
+          },
         },
-      },
-      { new: true }
-    );
+        { new: true }
+      );
 
-    res.status(201).json(funded);
+      res.status(201).json(funded);
+    } else {
+      const concertToUpdate = await Concert.findById(concertId);
+      const funded = await Concert.findByIdAndUpdate(
+        concertId,
+        {
+          budget:
+            concertToUpdate.budget - qtyTickets * concertToUpdate.minTicket,
+        },
+        { new: true }
+      );
+      res.status(201).json(funded);
+    }
   } catch (error) {
     next(error);
   }
