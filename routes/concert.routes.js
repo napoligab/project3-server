@@ -47,6 +47,15 @@ router.get('/concerts', (req, res, next) => {
     .catch((err) => res.json(err));
 });
 
+router.post('/concerts', (req, res, next) => {
+  const {artist} = req.body;
+
+  Concert.find()
+    .populate('artist')
+    .then((concerts) => res.status(200).json(concerts))
+    .catch((err) => res.json(err));
+});
+
 // Edit - Put
 
 router.put('/concerts/:concertId/edit', (req, res, next) => {
