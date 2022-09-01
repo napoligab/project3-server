@@ -34,9 +34,9 @@ router.get('/user/:userId', (req, res, next) => {
 
 router.put('/edit/:userId', (req, res, next) => {
   const { userId } = req.params;
-  const { firstName, lastName, email, city, creditCard, profilePicture } = req.body;
+  const { firstName, lastName, email, city, creditCard, profilePicture, admin } = req.body;
    
-  User.findByIdAndUpdate(userId, {  firstName, lastName, email, city, creditCard, profilePicture }, { new: true })
+  User.findByIdAndUpdate(userId, {  firstName, lastName, email, city, creditCard, profilePicture, admin }, { new: true })
     .then((user) => res.status(201).json(user))
     .catch((err) => res.json(err));
 });

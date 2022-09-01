@@ -116,10 +116,10 @@ router.post("/login", (req, res, next) => {
           return res.status(400).json({ errorMessage: "Wrong credentials." });
         }
 
-        const {_id, firstName, lastName, email, city, creditCard, profilePicture} = user;
+        const {_id, firstName, lastName, email, city, creditCard, profilePicture, admin} = user;
 
         // Creating the payload(like a body) with the properties we want to save on the token
-        const payload = {_id, firstName, lastName, email, city, creditCard, profilePicture};
+        const payload = {_id, firstName, lastName, email, city, creditCard, profilePicture, admin};
 
         //Creating and signing the token
         const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {algorithm: 'HS256', expiresIn: '14d'})
