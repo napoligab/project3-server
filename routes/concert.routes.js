@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const User = require('../models/User.model');
 const Concert = require('../models/Concert.model');
+const Artist = require('../models/Request.model');
 const fileUploader = require('../config/cloudinary.config');
 
 // Cloudinary route
@@ -18,7 +19,8 @@ router.post('/upload', fileUploader.single('imageUrl'), (req, res, next) => {
 });
 
 router.post('/createconcerts', (req, res, next) => {
-  const { artist, venue, city, date, budget, deadline, minTicket, image } = req.body;
+  const { artist, venue, city, date, budget, deadline, minTicket, image } =
+    req.body;
 
   Concert.create({
     artist,
@@ -74,9 +76,6 @@ router.delete('/concerts/:concertId', (req, res, next) => {
     )
     .catch((err) => res.json(err));
 });
-
-
-
 
 // Show the concert details
 router.get('/concerts/:concertId', (req, res, next) => {
